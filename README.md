@@ -3,9 +3,6 @@
 # pytest-rpaframework-json
 Repositório de testes dedicados ao uso da biblioteca rpaframework-json utilizando pytest
 
-# robot template
-> Repositório de testes dedicados ao uso da bibliotecas rpaframework com json 
-
 # Configuração do Ambiente
 
 ## 1. Instalar Python 3.10
