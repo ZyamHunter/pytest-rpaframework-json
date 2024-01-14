@@ -1,0 +1,22 @@
+name: Default Process
+description: Default Action Process For All Jobs
+
+runs: 
+  using: "composite"
+  steps:
+    - name: Setup Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Python Cache
+      uses: actions/cache@v3
+      id: cache
+      with:
+        path: /opt/hostedtoolcache/Python/
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: pip-
+
+    - name: Install Robot Dependencies
+      shell: bash
+      run: |
+        pip install -r requirements.txt

@@ -1,0 +1,53 @@
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "feature/**"
+      - "fix/**"
+      - "release/**"
+    paths-ignore:
+      - "**/*.md"
+      - .scafflater/**
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - .scafflater/**
+  workflow_dispatch:
+
+name: Standard
+
+env:
+  app_name: "testes"
+  aws_region: "us-east-1"
+  dockerfilePath: "dockerfiles/Dockerfile"
+  namespace: "rpa-framework"
+
+jobs:
+  ci_json:
+    name: CI - Test json
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v3
+      - name: ⚙️ Default Steps
+        uses: ./.github/actions/setup-composite
+      - name: 🧪 Run json Robot tests
+        run: |
+          pytest --html=report.html
+
+  report_slack:
+    name: CI - Send Test Status to Slack
+    needs: [ci_json]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v3
+      - name: ⚙️ Default Steps
+        uses: ./.github/actions/setup-composite
+      - name: 📨 Run Curl Message To Slack
+        run:
+          # robot ./Helpers/Curl_Slack.robot
+          echo "Enviando report de testes para o slack"
